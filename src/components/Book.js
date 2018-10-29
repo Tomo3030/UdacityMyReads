@@ -37,7 +37,13 @@ class Book extends Component {
                 backgroundImage: `url("${book.imageLinks.thumbnail}")`
               }}
             />
-            <div className="book-shelf-changer">
+            <div
+              className={
+                book.shelf
+                  ? "book-shelf-changer"
+                  : "book-shelf-changer not-selected"
+              }
+            >
               <select
                 onChange={this.moveBook}
                 value={book.shelf ? book.shelf : "none"}

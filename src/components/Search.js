@@ -9,12 +9,12 @@ class Search extends Component {
     search: ""
   };
   onShelfMove = (book, shelf) => {
+    // This actually changes the data from the api
     this.props.onShelfMove(book, shelf);
-    const movedBook = book.props.book.id;
-    let searchResults = this.state.searchResults.filter(
-      book => book.id !== movedBook
-    );
-    this.setState({ searchResults: searchResults });
+    book.props.book.shelf = shelf;
+    if (book.props.book.shelf === "none") {
+      delete book.props.book.shelf;
+    }
   };
   checkIfAlreadyOnShelf(searchBooks) {
     let bookSearchId = searchBooks.map(book => book.id);
