@@ -16,13 +16,27 @@ class Search extends Component {
     );
     this.setState({ searchResults: searchResults });
   };
+  checkIfAlreadyOnShelf(searchBooks) {
+    let bookSearchId = searchBooks.map(book => book.id);
+    let duplicateBooks = this.props.books.filter(book =>
+      bookSearchId.includes(book.id)
+    );
+    searchBooks.forEach(element => {
+      for (let index = 0; index < duplicateBooks.length; index++) {
+        if (element.id === duplicateBooks[index].id) {
+          element.shelf = duplicateBooks[index].shelf;
+        }
+      }
+    });
+  }
 
   handleChange = e => {
     if (e.target.value) {
       BooksAPI.search(e.target.value)
-        .then(book => {
-          if (Array.isArray(book)) {
-            this.setState({ searchResults: book });
+        .then(books => {
+          if (Array.isArray(books)) {
+            this.checkIfAlreadyOnShelf(books);
+            this.setState({ searchResults: books });
           }
         })
         .catch(e => {
