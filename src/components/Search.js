@@ -31,19 +31,23 @@ class Search extends Component {
   }
 
   handleChange = e => {
+    this.setState({ search: e.target.value });
     if (e.target.value) {
       BooksAPI.search(e.target.value)
         .then(books => {
           if (Array.isArray(books)) {
             this.checkIfAlreadyOnShelf(books);
             this.setState({ searchResults: books });
+          } else {
+            this.setState({ searchResults: [] });
           }
         })
         .catch(e => {
           console.log(e);
         });
-    } else {
-      this.setState({ searchResults: [], search: "" });
+    }
+    if (!e.target.value) {
+      this.setState({ searchResults: [] });
     }
   };
 
@@ -59,7 +63,6 @@ class Search extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              search={this.state.searchResults}
               onChange={this.handleChange}
             />
           </div>
@@ -69,6 +72,7 @@ class Search extends Component {
             <Shelf
               books={this.state.searchResults.map(book => book)}
               onShelfMove={this.onShelfMove}
+              search={this.state.search}
             />
             <div />
           </ol>

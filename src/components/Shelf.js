@@ -12,9 +12,16 @@ class Shelf extends Component {
         <h2 className="bookshelf-title"> {this.props.title} </h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {books.map((book, index) => (
+            {/* {books.map((book, index) => (
               <Book book={book} key={index} onShelfMove={this.onShelfMove} />
-            ))}
+            ))} */}
+            {books.length === 0 && this.props.search !== "" ? (
+              <div>Can't find any Books with that search, try again</div>
+            ) : (
+              books.map((book, index) => (
+                <Book book={book} key={index} onShelfMove={this.onShelfMove} />
+              ))
+            )}
           </ol>
         </div>
       </div>
