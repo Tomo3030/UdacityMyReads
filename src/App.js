@@ -16,15 +16,25 @@ class BooksApp extends React.Component {
 
   getBooks() {
     BooksAPI.getAll().then(books => {
-      this.setState({ books: books });
+      this.setState({ books });
     });
   }
 
+  // handleShelfMove = (book, shelf) => {
+  //   const realBook = book.props.book;
+  //   BooksAPI.update(realBook, shelf).then(() => {
+  //     this.getBooks();
+  //   });
+  // };
+
   handleShelfMove = (book, shelf) => {
-    const realBook = book.props.book;
-    BooksAPI.update(realBook, shelf).then(() => {
-      this.getBooks();
-    });
+    BooksAPI.update(book.props.book, shelf);
+    let bookWithNewShelf = book.props.book;
+    bookWithNewShelf.shelf = shelf;
+    let books = this.state.books
+      .filter(changeBook => changeBook.id !== book.props.book.id)
+      .concat(bookWithNewShelf);
+    this.setState({ books });
   };
 
   render() {

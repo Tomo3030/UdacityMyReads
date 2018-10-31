@@ -16,7 +16,7 @@ class Shelf extends Component {
               <Book book={book} key={index} onShelfMove={this.onShelfMove} />
             ))} */}
             {books.length === 0 && this.props.search !== "" ? (
-              <div>Can't find any Books with that search, try again</div>
+              <div className="no-search-results">Sorry! No Books Here.</div>
             ) : (
               books.map((book, index) => (
                 <Book book={book} key={index} onShelfMove={this.onShelfMove} />
